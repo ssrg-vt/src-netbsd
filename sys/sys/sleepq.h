@@ -48,7 +48,15 @@
 #define	SLEEPTAB_HASH_MASK	(SLEEPTAB_HASH_SIZE - 1)
 #define	SLEEPTAB_HASH(wchan)	(((uintptr_t)(wchan) >> 8) & SLEEPTAB_HASH_MASK)
 
+#ifdef _RUMPKERNEL
+# include <sys/condvar.h>
+struct sleepq {
+	TAILQ_HEAD(, lwp);	/* anonymous struct */
+	kcondvar_t sq_cv;
+};
+#else
 TAILQ_HEAD(sleepq, lwp);
+#endif
 
 typedef struct sleepq sleepq_t;
 
@@ -69,6 +77,16 @@ int	sleepq_abort(kmutex_t *, int);
 void	sleepq_changepri(lwp_t *, pri_t);
 void	sleepq_lendpri(lwp_t *, pri_t);
 int	sleepq_block(int, bool);
+
+#ifdef _RUMPKERNEL
+void
+sleepq_destroy(sleepq_t *);
+#else
+static inline void
+sleepq_destroy(sleepq_t *sq)
+{
+}
+#endif
 
 void	sleeptab_init(sleeptab_t *);
 

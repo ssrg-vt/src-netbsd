@@ -174,6 +174,7 @@ void	rump_syscall_boot_establish(const struct rump_onesyscall *, size_t);
 void	rump_schedlock_cv_wait(struct rumpuser_cv *);
 int	rump_schedlock_cv_timedwait(struct rumpuser_cv *,
 				    const struct timespec *);
+void	rump_schedlock_cv_signal(struct cpu_info *, struct rumpuser_cv *);
 
 void	rump_user_schedule(int, void *);
 void	rump_user_unschedule(int, int *, void *);
