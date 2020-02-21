@@ -120,6 +120,7 @@ void
 cv_destroy(kcondvar_t *cv)
 {
 
+	sleepq_destroy(CV_SLEEPQ(cv));
 	LOCKDEBUG_FREE(CV_DEBUG_P(cv), cv);
 #ifdef DIAGNOSTIC
 	KASSERT(cv_is_valid(cv));
