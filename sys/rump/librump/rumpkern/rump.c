@@ -225,7 +225,7 @@ RUMP_COMPONENT(RUMP_COMPONENT_POSTINIT)
 #endif /* RUMP_USE_CTOR */
 
 int
-rump_init(void)
+rump_init(void (*cpuinit_callback) (void))
 {
 	char buf[256];
 	struct timespec ts;
@@ -402,6 +402,9 @@ rump_init(void)
 	cprng_fast_init();
 
 	mp_online = true;
+
+	if (cpuinit_callback)
+		cpuinit_callback();
 
 	/* CPUs are up.  allow kernel threads to run */
 	rump_thread_allow(NULL);

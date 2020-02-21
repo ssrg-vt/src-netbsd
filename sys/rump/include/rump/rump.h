@@ -119,7 +119,7 @@ void	rump_unschedule(void);
 void	rump_printevcnts(void);
 
 int	rump_daemonize_begin(void);
-int	rump_init(void);
+int	rump_init(void (*cpuinit_callback) (void));
 int	rump_init_server(const char *);
 int	rump_daemonize_done(int);
 #define RUMP_DAEMONIZE_SUCCESS 0
