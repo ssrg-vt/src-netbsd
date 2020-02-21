@@ -1830,7 +1830,7 @@ linux_sys_recvmmsg(struct lwp *l, const struct linux_sys_recvmmsg_args *uap,
 	struct msghdr *msg = &bmsg.msg_hdr;
 	int error, s;
 	struct mbuf *from, *control;
-	struct timespec ts, now;
+	struct timespec ts = ts, now; /* XXX: gcc 7.3.0 maybe-uninitialized */
 	struct linux_timespec lts;
 	unsigned int vlen, flags, dg;
 

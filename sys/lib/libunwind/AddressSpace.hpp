@@ -140,7 +140,7 @@ public:
     } while (byte >= 0x80);
     // sign extend negative numbers
     if ((byte & 0x40) != 0)
-      result |= (-1LL) << bit;
+      result |= ((uint64_t)(-1LL)) << bit;
     return result;
   }
 
