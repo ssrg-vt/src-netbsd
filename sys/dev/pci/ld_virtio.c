@@ -785,6 +785,7 @@ ld_virtio_ioctl(struct ld_softc *ld, u_long cmd, void *addr, int32_t flag, bool 
 	return error;
 }
 
+#if 0
 MODULE(MODULE_CLASS_DRIVER, ld_virtio, "ld,virtio");
 
 #ifdef _MODULE
@@ -827,3 +828,4 @@ ld_virtio_modcmd(modcmd_t cmd, void *opaque)
 
 	return error;
 }
+#endif

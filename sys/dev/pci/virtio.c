@@ -1455,6 +1455,7 @@ virtio_features(struct virtio_softc *sc)
 	return sc->sc_features;
 }
 
+#if 0
 MODULE(MODULE_CLASS_DRIVER, virtio, "pci");
  
 #ifdef _MODULE
@@ -1484,3 +1485,4 @@ virtio_modcmd(modcmd_t cmd, void *opaque)
  
 	return error; 
 }
+#endif
