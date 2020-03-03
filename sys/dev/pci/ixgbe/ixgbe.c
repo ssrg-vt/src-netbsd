@@ -77,6 +77,8 @@
 #include <dev/mii/mii.h>
 #include <dev/mii/miivar.h>
 
+#define rss_getkey(_a)	do { } while (/*CONSTCOND*/false)
+
 /************************************************************************
  * Driver version
  ************************************************************************/

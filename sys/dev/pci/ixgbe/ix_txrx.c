@@ -63,8 +63,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+#ifdef _KERNEL_OPT
 #include "opt_inet.h"
 #include "opt_inet6.h"
+#endif
 
 #include "ixgbe.h"
 
