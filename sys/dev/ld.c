@@ -662,6 +662,7 @@ lddiscard(dev_t dev, off_t pos, off_t len)
 	return dk_discard(dksc, dev, pos, len);
 }
 
+#if 0
 MODULE(MODULE_CLASS_DRIVER, ld, "dk_subr");
 
 #ifdef _MODULE
@@ -700,3 +701,4 @@ ld_modcmd(modcmd_t cmd, void *opaque)
 
 	return error;
 }
+#endif

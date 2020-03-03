@@ -1033,6 +1033,7 @@ virtiobusprint(void *aux, const char *pnp)
 	return UNCONF;
 }
 
+#if 0
 MODULE(MODULE_CLASS_DRIVER, virtio, NULL);
  
 #ifdef _MODULE
@@ -1062,3 +1063,4 @@ virtio_modcmd(modcmd_t cmd, void *opaque)
  
 	return error; 
 }
+#endif

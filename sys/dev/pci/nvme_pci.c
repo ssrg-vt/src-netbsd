@@ -449,9 +449,16 @@ force_intx:
 	return 0;
 }
 
+#if 0
 MODULE(MODULE_CLASS_DRIVER, nvme, "pci,dk_subr");
 
 #ifdef _MODULE
+/*
+ * XXX Don't allow ioconf.c to redefine the "struct cfdriver nvme_cd"
+ * XXX it will be defined in the common-code module
+ */
+#undef  CFDRIVER_DECL
+#define CFDRIVER_DECL(name, class, attr)
 #include "ioconf.c"
 #endif
 
@@ -493,3 +500,4 @@ nvme_modcmd(modcmd_t cmd, void *opaque)
 #endif
 	return error;
 }
+#endif

@@ -249,6 +249,7 @@ ld_nvme_ioctl(struct ld_softc *ld, u_long cmd, void *addr, int32_t flag, bool po
 	return error;
 }
 
+#if 0
 MODULE(MODULE_CLASS_DRIVER, ld_nvme, "ld,nvme,bufq_fcfs");
 
 #ifdef _MODULE
@@ -291,3 +292,4 @@ ld_nvme_modcmd(modcmd_t cmd, void *opaque)
 
 	return error;
 }
+#endif
