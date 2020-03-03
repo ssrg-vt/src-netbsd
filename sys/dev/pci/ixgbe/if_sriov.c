@@ -900,7 +900,7 @@ ixgbe_add_vf(device_t dev, u16 vfnum, const nvlist_t *config)
 #else
 
 void
-ixgbe_handle_mbx(void *context, int pending)
+ixgbe_handle_mbx(void *context)
 {
 	UNREFERENCED_2PARAMETER(context, pending);
 } /* ixgbe_handle_mbx */
