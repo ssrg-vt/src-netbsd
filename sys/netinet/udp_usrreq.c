@@ -135,6 +135,8 @@ __KERNEL_RCSID(0, "$NetBSD: udp_usrreq.c,v 1.233.4.3 2018/06/07 16:05:09 martin 
 #include <ipkdb/ipkdb.h>
 #endif
 
+#include <rump/rumpuser.h>
+
 int	udpcksum = 1;
 int	udp_do_loopback_cksum = 0;
 
@@ -939,6 +941,11 @@ udp_bind(struct socket *so, struct sockaddr *nam, struct lwp *l)
 	KASSERT(solocked(so));
 	KASSERT(inp != NULL);
 	KASSERT(nam != NULL);
+
+	if (rumpuser_network_portbind(&sin->sin_port, 17) < 0) {
+		printf("rumpuser_network_portbind fails\n");
+		return EADDRINUSE;
+	}
 
 	s = splsoftnet();
 	error = in_pcbbind(inp, sin, l);

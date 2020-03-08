@@ -158,6 +158,8 @@ __KERNEL_RCSID(0, "$NetBSD: if.c,v 1.394.2.13 2018/07/13 16:01:12 martin Exp $")
 #include <compat/sys/sockio.h>
 #include <compat/sys/socket.h>
 
+#include <rump/rumpuser.h>
+
 MALLOC_DEFINE(M_IFADDR, "ifaddr", "interface address");
 MALLOC_DEFINE(M_IFMADDR, "ether_multi", "link-level multicast address");
 
@@ -795,6 +797,8 @@ if_register(ifnet_t *ifp)
 	TAILQ_INSERT_TAIL(&ifnet_list, ifp, if_list);
 	IFNET_WRITER_INSERT_TAIL(ifp);
 	IFNET_GLOBAL_UNLOCK();
+
+	rumpuser_network_init(ifp->if_xname, ifp);
 }
 
 /*
@@ -822,10 +826,17 @@ if_percpuq_softint(void *arg)
 	struct if_percpuq *ipq = arg;
 	struct ifnet *ifp = ipq->ipq_ifp;
 	struct mbuf *m;
+	int res;
 
 	while ((m = if_percpuq_dequeue(ipq)) != NULL) {
 		ifp->if_ipackets++;
 		bpf_mtap(ifp, m);
+
+		if ((res = rumpuser_network_receive(m)) <= 0) {
+			if (res == 0)
+				m_freem(m);
+			continue;
+		}
 
 		ifp->_if_input(ifp, m);
 	}
@@ -1113,12 +1124,18 @@ if_deferred_start_destroy(struct ifnet *ifp)
 void
 if_input(struct ifnet *ifp, struct mbuf *m)
 {
-
+	int res;
 	KASSERT(ifp->if_percpuq == NULL);
 	KASSERT(!cpu_intr_p());
 
 	ifp->if_ipackets++;
 	bpf_mtap(ifp, m);
+
+	if ((res = rumpuser_network_receive(m)) <= 0) {
+		if (res == 0)
+			m_freem(m);
+		return;
+	}
 
 	ifp->_if_input(ifp, m);
 }
