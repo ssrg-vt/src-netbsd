@@ -277,13 +277,13 @@ INCS+=		threads.h
 #
 # This makes -lpthread equivalent to -Wl,--whole-archive -lpthread
 
-__archivebuild: .USE
-	${_MKTARGET_BUILD}
-	@rm -f ${.TARGET}
-	${LD} -r -o ${.TARGET}.o `NM=${NM} ${LORDER} ${.ALLSRC:M*o} | ${TSORT}`
-	${AR} ${_ARFL} ${.TARGET} ${.TARGET}.o
-
-CLEANFILES+=	${_LIBS:=.o}
+#__archivebuild: .USE
+#	${_MKTARGET_BUILD}
+#	@rm -f ${.TARGET}
+#	${LD} -r -o ${.TARGET}.o `NM=${NM} ${LORDER} ${.ALLSRC:M*o} | ${TSORT}`
+#	${AR} ${_ARFL} ${.TARGET} ${.TARGET}.o
+#
+#CLEANFILES+=	${_LIBS:=.o}
 
 .include <bsd.lib.mk>
 
