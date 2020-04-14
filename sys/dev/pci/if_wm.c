@@ -145,6 +145,8 @@ __KERNEL_RCSID(0, "$NetBSD: if_wm.c,v 1.645.2.4 2020/01/26 11:13:27 martin Exp $
 #include <dev/pci/if_wmreg.h>
 #include <dev/pci/if_wmvar.h>
 
+#define rss_getkey(_a) do { } while (/*CONSTCOND*/false)
+
 #ifdef WM_DEBUG
 #define	WM_DEBUG_LINK		__BIT(0)
 #define	WM_DEBUG_TX		__BIT(1)
