@@ -132,7 +132,6 @@ __KERNEL_RCSID(0, "$NetBSD: umass.c,v 1.175 2019/05/05 03:17:54 mrg Exp $");
 
 #include "atapibus.h"
 #include "scsibus.h"
-#include "wd.h"
 
 #include <sys/param.h>
 #include <sys/buf.h>
@@ -152,7 +151,6 @@ __KERNEL_RCSID(0, "$NetBSD: umass.c,v 1.175 2019/05/05 03:17:54 mrg Exp $");
 #include <dev/usb/umassvar.h>
 #include <dev/usb/umass_quirks.h>
 #include <dev/usb/umass_scsipi.h>
-#include <dev/usb/umass_isdata.h>
 
 #include <dev/scsipi/scsipi_all.h>
 #include <dev/scsipi/scsipiconf.h>
@@ -747,14 +745,6 @@ umass_attach(device_t parent, device_t self, void *aux)
 #endif
 		break;
 
-	case UMASS_CPROTO_ISD_ATA:
-#if NWD > 0 && NATABUS > 0
-		error = umass_isdata_attach(sc);
-#else
-		aprint_error_dev(self, "isdata not configured\n");
-#endif
-		break;
-
 	default:
 		aprint_error_dev(self, "command protocol=0x%x not supported\n",
 		    sc->sc_cmd);
@@ -843,14 +833,6 @@ umass_detach(device_t self, int flags)
 			umass_atapi_detach(sc);
 #else
 			aprint_error_dev(self, "atapibus not configured\n");
-#endif
-			break;
-
-		case UMASS_CPROTO_ISD_ATA:
-#if NWD > 0
-			umass_isdata_detach(sc);
-#else
-			aprint_error_dev(self, "isdata not configured\n");
 #endif
 			break;
 
